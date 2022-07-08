@@ -1,0 +1,21 @@
+features:
+  - mqtt
+  - blockchain
+host:
+  privatekey: "0x1111111111111111111111111111111111111111111111111111111111111111"
+startHeight: 15215025
+dataSources:
+  - kind: ethereum/contract
+    name: DataSourceRegistry
+    source:
+      address: dc28e12d97D6b34a8086e08Eb94C13be054c9461
+      abi: DevicesRegistry
+    eventHandlers:
+      - event: DeviceRegistered
+        handler: onDeviceRegistered
+  - kind: mqtt
+    name: MQTT
+    topics: /device/#
+    handlers:
+      - topicReg: ^/device\/0x[a-fA-F0-9]{40}\/data$
+        handler: onMqttData
